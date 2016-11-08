@@ -28,6 +28,10 @@ Out of the `M` buffers, `M-1` Buffers will be used as `input buffers` (which wil
 1. Record : This needs to be forwarded to the output buffer (If it's a distinct record)  
 2. Null : The input file is completely processed. Proceed for close() routine  
 
+Two assumptions have been made here:  
+1. For the `BTree`, it is assumed that the number of unique tuples is not larger than what can fit into the main memory's M-1 blocks. If the number is larger than that, an error is thrown.  
+2. For `Hashing`, there are M - 1 blocks to which the tuples can hash to. The maximum number of unique tuples which can hash to a block (amongst the M - 1 blocks) is the number which can fit in M - 1 blocks since we employ a two pass algorithm here if overflow occurs, and the entire content of each of those M-1 hash blocks needs to fit into the main memory at once during the second pass.  
+
 **Output:** Vary from `M >= B(R)` to `M= (3/4)(B(R))` and calculate the execution time by employing
 BTree and Hashing for inserting and checking duplicate entry.  
 
